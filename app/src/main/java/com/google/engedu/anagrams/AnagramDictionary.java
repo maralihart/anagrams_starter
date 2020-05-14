@@ -44,6 +44,19 @@ public class AnagramDictionary {
 
     public List<String> getAnagrams(String targetWord) {
         ArrayList<String> result = new ArrayList<String>();
+        boolean same = true
+        for (String word : wordList) {
+            if (word.length() == targetWord.length()) {
+                for (int i = 0; i < word.length(); i++) {
+                    if (word[i] != targetWord[i]) {
+                        same = False
+                    }
+                }
+            }
+            if (same) {
+                result.append(word)
+            }
+        }
         return result;
     }
 
