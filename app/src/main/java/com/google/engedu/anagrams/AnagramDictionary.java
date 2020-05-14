@@ -19,8 +19,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import android.util.Log;
 
 public class AnagramDictionary {
 
@@ -28,13 +32,25 @@ public class AnagramDictionary {
     private static final int DEFAULT_WORD_LENGTH = 3;
     private static final int MAX_WORD_LENGTH = 7;
     private Random random = new Random();
+    private ArrayList<String> wordList = new ArrayList<String>();
+    private HashSet wordSet = new HashSet();
+    private HashMap<String, ArrayList<String>> lettersToWord = new HashMap();
 
     public AnagramDictionary(Reader reader) throws IOException {
         BufferedReader in = new BufferedReader(reader);
         String line;
-        ArrayList wordList = new ArrayList();
         while((line = in.readLine()) != null) {
             String word = line.trim();
+            wordList.add(word);
+            String key = sortLetters(word);
+            if (lettersToWord.containsKey(key)) {
+                lettersToWord.get(key).add(word);
+            }
+            else {
+                ArrayList<String> starter = new ArrayList<>();
+                starter.add(word);
+                lettersToWord.put(key, starter);
+            }
         }
     }
 
@@ -47,7 +63,7 @@ public class AnagramDictionary {
         for (String word : wordList) {
             if (word.length() == targetWord.length()) {
                 if (sortLetters(targetWord) == sortLetters(word)) {
-                    result.add(word)
+                    result.add(word);
                 }
             }
         }
@@ -67,6 +83,6 @@ public class AnagramDictionary {
     }
 
     public String pickGoodStarterWord() {
-        return "stop";
+        return "top";
     }
 }
