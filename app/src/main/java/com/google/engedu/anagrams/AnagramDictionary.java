@@ -35,14 +35,17 @@ public class AnagramDictionary {
     private ArrayList<String> wordList = new ArrayList<String>();
     private HashSet wordSet = new HashSet();
     private HashMap<String, ArrayList<String>> lettersToWord = new HashMap();
+    private HashMap<Integer, ArrayList<String>> sizeToWords = new HashMap();
 
     public AnagramDictionary(Reader reader) throws IOException {
         BufferedReader in = new BufferedReader(reader);
         String line;
         while((line = in.readLine()) != null) {
             String word = line.trim();
+
             wordList.add(word);
             wordSet.add(word);
+
             String key = sortLetters(word);
             if (lettersToWord.containsKey(key)) {
                 lettersToWord.get(key).add(word);
@@ -51,6 +54,16 @@ public class AnagramDictionary {
                 ArrayList<String> starter = new ArrayList<>();
                 starter.add(word);
                 lettersToWord.put(key, starter);
+            }
+
+            int length = word.length();
+            if (sizeToWords.containsKey(length)) {
+                sizeToWords.get(length).add(word);
+            }
+            else {
+                ArrayList<String> starter = new ArrayList<>();
+                starter.add(word);
+                sizeToWords.put(length,starter);
             }
         }
     }
@@ -99,12 +112,16 @@ public class AnagramDictionary {
     public String pickGoodStarterWord() {
         boolean trying = true;
         String selected = "ERROR";
+        int wordLength = DEFAULT_WORD_LENGTH;
+
         while (trying) {
             int randNum = random.nextInt(wordList.size());
             selected = wordList.get(randNum);
-            if (selected.length() < MAX_WORD_LENGTH || getAnagramsWithOneMoreLetter(selected).size() >= MIN_NUM_ANAGRAMS) {
+            Log.d("selected", selected);
+            if (getAnagramsWithOneMoreLetter(selected).size() >= MIN_NUM_ANAGRAMS && !(selected.length() == wordLength)) {
                 trying = false;
             }
+            wordLength++;
         }
         return selected;
     }
