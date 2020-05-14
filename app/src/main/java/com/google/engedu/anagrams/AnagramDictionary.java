@@ -32,6 +32,7 @@ public class AnagramDictionary {
     public AnagramDictionary(Reader reader) throws IOException {
         BufferedReader in = new BufferedReader(reader);
         String line;
+        ArrayList wordList = new ArrayList();
         while((line = in.readLine()) != null) {
             String word = line.trim();
         }
@@ -44,6 +45,13 @@ public class AnagramDictionary {
     public List<String> getAnagrams(String targetWord) {
         ArrayList<String> result = new ArrayList<String>();
         return result;
+    }
+
+    public String sortLetters(String toSort) {
+        // Sort method found here: https://www.geeksforgeeks.org/sort-a-string-in-java-2-different-ways/
+        char temp[] = toSort.toCharArray();
+        Arrays.sort(temp);
+        return new String(temp);
     }
 
     public List<String> getAnagramsWithOneMoreLetter(String word) {
