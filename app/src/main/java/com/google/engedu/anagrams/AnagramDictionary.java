@@ -42,6 +42,7 @@ public class AnagramDictionary {
         while((line = in.readLine()) != null) {
             String word = line.trim();
             wordList.add(word);
+            wordSet.add(word);
             String key = sortLetters(word);
             if (lettersToWord.containsKey(key)) {
                 lettersToWord.get(key).add(word);
@@ -55,14 +56,14 @@ public class AnagramDictionary {
     }
 
     public boolean isGoodWord(String word, String base) {
-        return true;
+        return wordSet.contains(word) && !word.contains(base);
     }
 
     public ArrayList<String> getAnagrams(String targetWord) {
         ArrayList<String> result = new ArrayList<String>();
         for (String word : wordList) {
             if (word.length() == targetWord.length()) {
-                if (sortLetters(targetWord) == sortLetters(word)) {
+                if (sortLetters(targetWord).equals(sortLetters(word))) {
                     result.add(word);
                 }
             }
@@ -79,10 +80,23 @@ public class AnagramDictionary {
 
     public ArrayList<String> getAnagramsWithOneMoreLetter(String word) {
         ArrayList<String> result = new ArrayList<String>();
+        String addedLetter;
+        for (char i = 'a'; i <= 'z'; i++) { // cycles through ASCII table
+            addedLetter = word + String.valueOf(i);
+            addedLetter = sortLetters(addedLetter);
+
+            if(lettersToWord.containsKey(addedLetter)) {
+                // looks in lettersToWord (hashMap)
+                // for each letter of the alphabet, return all of those valid words
+                result.addAll(lettersToWord.get(addedLetter));
+            }
+        }
+        for (String toPrint : result)
+            Log.d("result", toPrint);
         return result;
     }
 
     public String pickGoodStarterWord() {
-        return "top";
+        return "rots";
     }
 }
