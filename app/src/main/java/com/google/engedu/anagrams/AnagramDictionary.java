@@ -42,19 +42,13 @@ public class AnagramDictionary {
         return true;
     }
 
-    public List<String> getAnagrams(String targetWord) {
+    public ArrayList<String> getAnagrams(String targetWord) {
         ArrayList<String> result = new ArrayList<String>();
-        boolean same = true
         for (String word : wordList) {
             if (word.length() == targetWord.length()) {
-                for (int i = 0; i < word.length(); i++) {
-                    if (word[i] != targetWord[i]) {
-                        same = False
-                    }
+                if (sortLetters(targetWord) == sortLetters(word)) {
+                    result.add(word)
                 }
-            }
-            if (same) {
-                result.append(word)
             }
         }
         return result;
@@ -67,7 +61,7 @@ public class AnagramDictionary {
         return new String(temp);
     }
 
-    public List<String> getAnagramsWithOneMoreLetter(String word) {
+    public ArrayList<String> getAnagramsWithOneMoreLetter(String word) {
         ArrayList<String> result = new ArrayList<String>();
         return result;
     }
