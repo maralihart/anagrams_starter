@@ -97,6 +97,15 @@ public class AnagramDictionary {
     }
 
     public String pickGoodStarterWord() {
-        return "rots";
+        boolean trying = true;
+        String selected = "ERROR";
+        while (trying) {
+            int randNum = random.nextInt(wordList.size());
+            selected = wordList.get(randNum);
+            if (selected.length() < MAX_WORD_LENGTH || getAnagramsWithOneMoreLetter(selected).size() >= MIN_NUM_ANAGRAMS) {
+                trying = false;
+            }
+        }
+        return selected;
     }
 }
